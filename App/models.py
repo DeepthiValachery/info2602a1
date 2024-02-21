@@ -4,8 +4,8 @@ db = SQLAlchemy()
 
 class UserPokemon(db.Model):
   uid = db.Column('uid', db.Integer, primary_key=True)
-  id = db.Column('id', db.Integer, db.ForeignKey(user.id))
-  pokeid = db.Column('pokeid', db.Integer, db.ForeignKey(Pokemon.pokeid))
+  id = db.Column('id', db.Integer, db.ForeignKey('user.id'))
+  pokeid = db.Column('pokeid', db.Integer, db.ForeignKey('Pokemon.pokeid'))
   name = db.Column(db.String(50))
   pokemen = db.relationship('Pokemon')
   pass
@@ -21,7 +21,7 @@ class User(db.Model):
 
 class Pokemon(db.Model):
   pokeid = db.Column('pokeid', db.Integer, primary_key=True)
-  name = db.Coloumn('name', db.String(50), nullable=False)
+  name = db.Column('name', db.String(50), nullable=False)
   attack = db.Column('attack', db.Integer, nullable=False)
   defense = db.Column('defense', db.Integer, nullable=False)
   hp = db.Column('hp', db.Integer, nullable=False)
@@ -30,6 +30,6 @@ class Pokemon(db.Model):
   sp_defense = db.Column('sp_defense', db.Integer, nullable=False)
   speed = db.Column('speed', db.Integer, nullable=False)
   weight = db.Column('weight', db.Integer, nullable=True)
-  type1 = db.Coloumn('type1', db.String(50), nullable=False)
-  type2 = db.Coloumn('type2', db.String(50), nullable=True)
+  type1 = db.Column('type1', db.String(50), nullable=False)
+  type2 = db.Column('type2', db.String(50), nullable=True)
   pass
