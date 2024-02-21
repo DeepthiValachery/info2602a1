@@ -33,4 +33,3 @@ class Pokemon(db.Model):
   type1 = db.Coloumn('type1', db.String(50), nullable=False)
   type2 = db.Coloumn('type2', db.String(50), nullable=True)
   pass
-print("hello World")
