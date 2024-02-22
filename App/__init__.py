@@ -1,6 +1,8 @@
-from .app import db, app
-from .models import Pokemon
+from .app import *
+from .models import *
 import csv
+
+db.create_all(app=app)
 
 with open('pokemon.csv') as file:
     input = csv.reader(file)
