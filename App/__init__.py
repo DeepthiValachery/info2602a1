@@ -1,5 +1,5 @@
-from app import *
-from models import *
+from .app import *
+from .models import *
 import csv
 
 db.create_all(app=app)
