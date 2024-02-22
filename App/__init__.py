@@ -2,7 +2,7 @@ from .app import db, app
 from .models import Pokemon
 import csv
 
-with open('pokemon.csv', newline='', mode='r') as file:
+with open('pokemon.csv') as file:
     input = csv.reader(file)
     next(input, None)
     for abilities,against_bug,against_dark,against_dragon,against_electric,against_fairy,against_fight,against_fire,against_flying,against_ghost,against_grass,against_ground,against_ice,against_normal,against_poison,against_psychic,against_rock,against_steel,against_water,attack,base_egg_steps,base_happiness,base_total,capture_rate,classfication,defense,experience_growth,height_m,hp,japanese_name,name,percentage_male,pokedex_number,sp_attack,sp_defense,speed,type1,type2,weight_kg,generation,is_legendary in input:
