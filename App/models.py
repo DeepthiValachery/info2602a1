@@ -32,6 +32,11 @@ class User(db.Model):
     }
 
   #must have passwordSet, passwordCheck
+  def passwordSet(self, password):
+    self.password = generate_password_hash(password, method='pass123')
+  
+  def passwordCheck(self, password):
+    return check_password_hash(self.password, password)
   pass
 
 class Pokemon(db.Model):
