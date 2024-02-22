@@ -32,6 +32,7 @@ app.config['JWT_HEADER_NAME'] = "Cookie"
 
 
 # Initialize App 
+db = SQLAlchemy(app)
 db.init_app(app)
 app.app_context().push()
 CORS(app)
