@@ -40,6 +40,13 @@ def initialize_db():
   db.drop_all()
   db.create_all()
 
+@app.cli.command('init-db')
+@with_appcontext
+def init_db_command():
+    """Command to initialize the database."""
+    initialize_db()
+    print('Database initialized!')
+
 # ********** Routes **************
 @app.route('/')
 def index():
