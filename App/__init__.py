@@ -1,5 +1,5 @@
-from .app import *
-from .models import *
+from app import *
+from models import *
 import csv
 
 def initialize_db():
