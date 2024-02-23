@@ -53,7 +53,7 @@ def init_db_command():
 
 def authenticate(username, password):
   user = User.query.filter_by(username=username).first()
-  if user and user.passwordCheck(password):
+  if user and user.check_password(password):
     token = create_access_token(identity=username)
     response = jsonify(access_token=token)
     set_access_cookies(response, token)
@@ -75,7 +75,7 @@ def init_app():
 @app.route('/pokemon', methods=['GET'])
 def listPokemon():
   allPokemon = Pokemon.query.all()
-  pokemonData = [{"pokemon_id": pokemon.pokeid,
+  pokemonData = [{"pokemon_id": pokemon.id,
                   "attack": pokemon.attack,
                   "defense": pokemon.defense,
                   "sp_attack": pokemon.sp_attack,
@@ -100,7 +100,7 @@ def signup():
     return jsonify({"message": "Username or email already exists"}), 409 #Conflict status code
 
   newuser = User(username=username, email=email)
-  newuser.passwordSet(password)
+  newuser.set_password(password)
 
   try:
     db.session.add(newuser)
@@ -127,7 +127,7 @@ def login():
 @jwt_required()
 def myPokemon():
   data = request.get_json()
-  pokeid = data.get('pokeid')
+  pokeid = data.get('id')
   name = data.get('name')
 
   pokemon = Pokemon.query.get(pokeid)
@@ -135,7 +135,7 @@ def myPokemon():
     return jsonify(error = f"{pokeid} is not a valid pokemon id"), 400 #bad request status code
 
   
-  new_pokemon = UserPokemon(user_id=current_user.id, pokeid=pokeid, name=name)
+  new_pokemon = UserPokemon(user_id=current_user.id, pokemon_id=pokemon_id, name=name)
   db.session.add(new_pokemon)
   db.session.commit()
   return jsonify(message=f'{name} captured with id: {pokeid}', user_pokemon_id=new_pokemon.id), 200 #OK status code

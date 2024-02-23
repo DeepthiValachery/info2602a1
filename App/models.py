@@ -6,7 +6,7 @@ db = SQLAlchemy()
 class UserPokemon(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-  pokeid = db.Column( db.Integer, db.ForeignKey('Pokemon.pokeid'), nullable=False)
+  pokemon_id = db.Column( db.Integer, db.ForeignKey('Pokemon.id'), nullable=False)
   name = db.Column(db.String, nullable=False)
 
   pokemon = db.relationship('Pokemon', backref='captured_by', lazy=True)
@@ -40,7 +40,7 @@ class User(db.Model):
     }
 
 class Pokemon(db.Model):
-  pokeid = db.Column(db.Integer, primary_key=True)
+  id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(100), nullable=False)
   attack = db.Column(db.Integer, nullable=False)
   defense = db.Column(db.Integer, nullable=False)
