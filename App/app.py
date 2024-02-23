@@ -45,7 +45,7 @@ def initialize_db():
   db.drop_all()
   db.create_all()
 
-@app.cli.command('init-db')
+@app.cli.command('init')
 @with_appcontext
 def init_db_command():
     initialize_db()
