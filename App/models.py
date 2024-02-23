@@ -4,54 +4,54 @@ from werkzeug.security import generate_password_hash, check_password_hash
 db = SQLAlchemy()
 
 class UserPokemon(db.Model):
-  uid = db.Column('uid', db.Integer, primary_key=True)
-  id = db.Column('id', db.Integer, db.ForeignKey('user.id'))
-  pokeid = db.Column('pokeid', db.Integer, db.ForeignKey('Pokemon.pokeid'))
-  name = db.Column(db.String(50))
-  pokemen = db.relationship('Pokemon')
+  id = db.Column(db.Integer, primary_key=True)
+  user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+  pokeid = db.Column( db.Integer, db.ForeignKey('Pokemon.pokeid'), nullable=False)
+  name = db.Column(db.String, nullable=False)
+
+  pokemon = db.relationship('Pokemon', backref='captured_by', lazy=True)
 
   def toDict(self):
     return{
       'name':self.name,
-      'stats':self.pokemon.toDict()
+      'pokemon':self.pokemon.toDict()
     }
-  pass
 
 class User(db.Model):
-  id = db.Column('id', db.Integer, primary_key=True)
-  username = db.Column('username', db.String(80), unique=True, nullable=False)
-  email = db.Column('email', db.String(120), unique=True, nullable=False)
-  password = db.Column('password', db.String(120), unique=True, nullable=False)
+  id = db.Column(db.Integer, primary_key=True)
+  username = db.Column(db.String(50), unique=True, nullable=False)
+  email = db.Column(db.String(100), unique=True, nullable=False)
+  password_hash = db.Column(db.String, unique=True, nullable=False)
 
+  captured_pokemon = db.relationship('UserPokemon', backref='user', lazy=True)
+
+  #must have passwordSet, passwordCheck
+  def set_password(self, password):
+    self.password_hash = generate_password_hash(password)
+  
+  def check_password(self, password):
+    return check_password_hash(self.password_hash, password)
+  
   def toDict(self):
     return {
       "id": self.id,
       "username": self.username,
-      "email": self.email,
-      "password": self.password
+      "email": self.email
     }
 
-  #must have passwordSet, passwordCheck
-  def passwordSet(self, password):
-    self.password = generate_password_hash(password, method='pass123')
-  
-  def passwordCheck(self, password):
-    return check_password_hash(self.password, password)
-  pass
-
 class Pokemon(db.Model):
-  pokeid = db.Column('pokeid', db.Integer, primary_key=True)
-  name = db.Column('name', db.String(50), nullable=False)
-  attack = db.Column('attack', db.Integer, nullable=False)
-  defense = db.Column('defense', db.Integer, nullable=False)
-  hp = db.Column('hp', db.Integer, nullable=False)
-  height = db.Column('height', db.Integer, nullable=True)
-  sp_attack = db.Column('sp_attack', db.Integer, nullable=False)
-  sp_defense = db.Column('sp_defense', db.Integer, nullable=False)
-  speed = db.Column('speed', db.Integer, nullable=False)
-  weight = db.Column('weight', db.Integer, nullable=True)
-  type1 = db.Column('type1', db.String(50), nullable=False)
-  type2 = db.Column('type2', db.String(50), nullable=True)
+  pokeid = db.Column(db.Integer, primary_key=True)
+  name = db.Column(db.String(100), nullable=False)
+  attack = db.Column(db.Integer, nullable=False)
+  defense = db.Column(db.Integer, nullable=False)
+  hp = db.Column(db.Integer, nullable=False)
+  height = db.Column(db.Integer, nullable=True)
+  sp_attack = db.Column(db.Integer, nullable=False)
+  sp_defense = db.Column(db.Integer, nullable=False)
+  speed = db.Column(db.Integer, nullable=False)
+  weight = db.Column(db.Integer, nullable=True)
+  type1 = db.Column(db.String(50), nullable=False)
+  type2 = db.Column(db.String(50), nullable=True)
   
   def toDict(self):
     return {
@@ -68,4 +68,3 @@ class Pokemon(db.Model):
       "type1": self.type1,
       "type2": self.type2
     }
-  pass
