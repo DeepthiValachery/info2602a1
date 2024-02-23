@@ -16,7 +16,7 @@ from flask_jwt_extended import (
     unset_jwt_cookies,
 )
 
-from models import db, User, UserPokemon, Pokemon
+from .models import db, User, UserPokemon, Pokemon
 
 # Configure Flask App
 app = Flask(__name__)
