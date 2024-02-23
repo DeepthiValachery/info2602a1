@@ -45,12 +45,6 @@ def initialize_db():
   db.drop_all()
   db.create_all()
 
-@app.cli.command('init-db')
-@with_appcontext
-def init_db_command():
-    """Command to initialize the database."""
-    initialize_db()
-    print('Database initialized successfully.')
 
 def authenticate(username, password):
   user = User.query.filter_by(username=username).first()
@@ -68,6 +62,8 @@ def index():
   return '<h1>Poke API v1.0</h1>'
 
 @app.route('/init', methods=['GET'])
+@app.cli.command('init')
+@with_appcontext
 def init_app():
   initialize_db()
   ###print('Database initialized!')
